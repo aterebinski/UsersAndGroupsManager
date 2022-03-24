@@ -100,12 +100,22 @@ namespace UsersAndGroupsManager.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
                     await _userManager.AddToRoleAsync(user, Enums.Roles.Basic.ToString());
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    _logger.LogInformation("Code: "+code);
+                    
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    
+                    _logger.LogInformation("Code encoding: " + code);
+                    
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
                         values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
+
+                    _logger.LogInformation("CallbackURL: " + callbackUrl.ToString());
+                    _logger.LogInformation($"HTML CallbackURL: {HtmlEncoder.Default.Encode(callbackUrl)}");
+                    _logger.LogInformation($"Email: {Input.Email}");
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");

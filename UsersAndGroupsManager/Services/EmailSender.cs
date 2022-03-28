@@ -38,7 +38,7 @@ namespace UsersAndGroupManagerUsersAndGroupsManager.Services
             var msg = new SendGridMessage()
             {
                 // Please cnange Email address according to SendGrid Sender
-                From = new EmailAddress("aterebinski@wp.pl", "Password Recovery"),
+                From = new EmailAddress("sender@gmail.com", "Password Recovery"),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
